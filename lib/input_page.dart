@@ -14,19 +14,7 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Color maleCardColor = inactiveCardColor;
-  Color femaleCardColor = inactiveCardColor;
-
-  // 1 = male, 2 = female
-  void updateColor(Gender selectedGender) {
-    if (selectedGender == Gender.male) {
-      maleCardColor = activeCardColor;
-      femaleCardColor = inactiveCardColor;
-    } else {
-      maleCardColor = inactiveCardColor;
-      femaleCardColor = activeCardColor;
-    }
-  }
+  Gender selectedGender;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +30,9 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: GestureDetector(
                     child: ReusableCard(
-                      color: maleCardColor,
+                      color: selectedGender == Gender.male
+                          ? activeCardColor
+                          : inactiveCardColor,
                       childCard: IconContent(
                         iconData: FontAwesomeIcons.mars,
                         label: 'MALE',
@@ -50,16 +40,17 @@ class _InputPageState extends State<InputPage> {
                     ),
                     onTap: () {
                       setState(() {
-                        updateColor(Gender.male);
+                        selectedGender = Gender.male;
                       });
-                      print('MALE card was pressed');
                     },
                   ),
                 ),
                 Expanded(
                   child: GestureDetector(
                     child: ReusableCard(
-                      color: femaleCardColor,
+                      color: selectedGender == Gender.female
+                          ? activeCardColor
+                          : inactiveCardColor,
                       childCard: IconContent(
                         iconData: FontAwesomeIcons.venus,
                         label: 'FEMALE',
@@ -67,9 +58,8 @@ class _InputPageState extends State<InputPage> {
                     ),
                     onTap: () {
                       setState(() {
-                        updateColor(Gender.female);
+                        selectedGender = Gender.female;
                       });
-                      print('FEMALE card was pressed');
                     },
                   ),
                 ),
